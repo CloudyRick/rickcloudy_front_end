@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rickcloudy-fe-deployment
+  labels:
+    app: rickcloudy-fe
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rickcloudy-fe
+  template:
+    metadata:
+      labels:
+        app: rickcloudy-fe
+    spec:
+      containers:
+        - name: rickcloudy-fe
+          image: 637423465400.dkr.ecr.ap-southeast-2.amazonaws.com/rickcloudy_front_end
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+      imagePullSecrets:
+        - name: regcred
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rickcloudy-fe-service
+spec:
+  selector:
+    app: rickcloudy-fe
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rickcloudy-fe-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: / # Optional, for rewriting requests to root
+spec:
+  ingressClassName: nginx
+  # tls:
+  #   - hosts:
+  #       - jenkins.rickcloudy.com
+  #     secretName: jenkins-tls
+  rules:
+    - host: app.rickcloudy.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rickcloudy-fe-service
+                port:
+                  number: 80

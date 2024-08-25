@@ -1,9 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cutive&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Mulish&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cutive&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Epilogue:wght@400;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mulish&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add your custom styles here */
+.bg-doodle-pattern::after {
+  content: "";
+  @apply absolute top-0 left-0 right-0 bottom-0 opacity-20 z-0;
+  background-image: url("/images/doodles.png"); /* Adjust the path as needed */
+}

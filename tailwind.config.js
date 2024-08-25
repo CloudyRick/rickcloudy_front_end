@@ -11,12 +11,15 @@ export default {
         mulish: ["Mulish"],
       },
       backgroundImage: {
-        hero: "url('/images/web_dev.png')",
+        // "doodle-pattern": "url('/images/doodles.png')",
       },
       colors: {
         lavender: "#E4E6F1",
         "dark-gray": "391400",
         terra: "#EF6C57",
+        "pastel-blue": "#E8ECF4",
+        "muted-navy": "#222831",
+        "dark-slate": "#393E46",
       },
     },
   },

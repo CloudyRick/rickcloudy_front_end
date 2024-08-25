@@ -1,5 +1,5 @@
 {
-  "name": "learn_react",
+  "name": "rickcloudy",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@radix-ui/react-progress": "^1.0.3",
     "quill-emoji": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -26,6 +25,7 @@
     "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
+    "@radix-ui/react-progress": "^1.0.3",
     "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.1.2",
     "@types/react": "^18.2.15",

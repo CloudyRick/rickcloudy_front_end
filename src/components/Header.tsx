@@ -34,7 +34,7 @@ export const Header = ({ isAuthenticated }: IElementProps): JSX.Element => {
     return (
       <div className="pt-6">
         <a
-          className="block px-4 py-3 mb-3 text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl"
+          className="block px-4 py-3 mb-3 text-xs text-center text-black font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl"
           href="/hire-me"
         >
           Hire Me
@@ -52,7 +52,10 @@ export const Header = ({ isAuthenticated }: IElementProps): JSX.Element => {
 
   const navItems = navMenu;
   return (
-    <nav className="bg-white lg:shadow-lg fixed inset-x-0 z-10" id="nav-bar">
+    <nav
+      className="bg-muted-navy lg:shadow-lg fixed inset-x-0 z-10 text-white"
+      id="nav-bar"
+    >
       <div className="container lg:max-w-[80%] mx-auto relative p-4 flex justify-between items-center">
         {/* logo */}
         <a
@@ -65,9 +68,9 @@ export const Header = ({ isAuthenticated }: IElementProps): JSX.Element => {
         </a>
         <div
           onClick={() => setOpenNav(!openNav)}
-          className="text-3xl absolute right-8 top-3 cursor-pointer lg:hidden"
+          className="text-3xl absolute z-20 right-8 top-3 cursor-pointer lg:hidden"
         >
-          <div></div>
+          {/* <div></div> */}
           {openNav ? <></> : <IoMenu />}
         </div>
         {/* main nav */}
@@ -88,8 +91,8 @@ export const Header = ({ isAuthenticated }: IElementProps): JSX.Element => {
         </div>
 
         <nav
-          className={`fixed top-0 right-0 flex flex-col w-[70%] sm:w-1/2 md:w-1/3 h-full py-6 px-6 bg-blue-600 ${
-            openNav ? "translate-x-0" : "translate-x-full"
+          className={`fixed top-0 right-0 flex flex-col w-[70%] sm:w-1/2 md:w-1/3 h-full py-6 px-6 bg-dark-slate ${
+            openNav ? "translate-x-0" : "translate-x-full z-50"
           } ease-in-out duration-300`}
           id="mobile-menu"
         >
