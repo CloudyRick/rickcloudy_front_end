@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./demo-image-ecr.sh
+./demo_image_ecr.sh
 
 
 kubectl delete deployment rickcloudy-fe -n rickcloudy-fe

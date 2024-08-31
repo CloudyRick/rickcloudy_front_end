@@ -128,28 +128,28 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker Image...'
-                // Use the new version from the environment variable
-                sh "docker build -t ${env.AWS_ECR_REPO_URL}:${env.APP_VERSION} ."
-                echo "Docker image ${env.AWS_ECR_REPO_URL}:${env.APP_VERSION} built successfully!"
+                script {
+                    docker.withRegistry("https://${env.AWS_ECR_REPO_URL}", 'aws-cloudyrick-jenkins') {
+                        def image = docker.build("${env.AWS_ECR_REPO_URL}:${env.APP_VERSION}")
+                        echo "Docker image ${env.AWS_ECR_REPO_URL}:${env.APP_VERSION} built successfully!"
+                    }
+                }
             }
         }
 
         stage('Push Docker Image to AWS ECR') {
             steps {
+                echo 'Pushing Docker Image to AWS ECR...'
                 script {
-                    // Login to AWS ECR
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-cloudyrick-jenkins']]) {
-                        sh "aws ecr get-login-password --region ${env.AWS_REGION} | docker login --username AWS --password-stdin ${env.AWS_ACCOUNT_URL}"
+                    docker.withRegistry("https://${env.AWS_ECR_REPO_URL}", 'aws-cloudyrick-jenkins') {
+                        def image = docker.image("${env.AWS_ECR_REPO_URL}:${env.APP_VERSION}")
+                        image.push()
+                        echo "Docker image ${env.AWS_ECR_REPO_URL}:${env.APP_VERSION} pushed successfully!"
+
+                        // Tag the image with 'latest' and push
+                        image.push('latest')
+                        echo "Docker image ${env.AWS_ECR_REPO_URL}:latest pushed successfully!"
                     }
-                    // Push the image in the previous stage with numbered version
-                    sh "docker push ${env.AWS_ECR_REPO_URL}:${env.APP_VERSION}"
-
-                    // Tag and push the Docker image
-                    sh "docker tag ${env.APP_NAME}:${env.APP_VERSION} ${env.AWS_ECR_REPO_URL}:latest"
-                    sh "docker push ${env.AWS_ECR_REPO_URL}:latest"
-
-                    // Update version.txt with the new version
-                    writeFile file: 'app_version.txt', text: env.APP_VERSION
                 }
             }
         }
