@@ -3,8 +3,9 @@ import PageLayout from "./components/Layout";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import { adminRoutes, protectedRoutes, publicRoutes } from "./routes/Routing";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
+import { AuthProvider } from "./utils/auth/AuthContext";
 
-const isAuth: boolean = false;
+const isAuth: boolean = true;
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,6 @@ const router = createBrowserRouter([
     element: <ProtectedRoutes isAuthenticated={isAuth} />,
     children: [
       {
-        // path: '/',
         element: <PageLayout isAuthenticated={isAuth} />,
         children: protectedRoutes,
       },
@@ -33,6 +33,13 @@ const router = createBrowserRouter([
   },
 ]);
 
-const App = () => <RouterProvider router={router} />;
+const App = () => {
+  return (
+    <AuthProvider.Provider>
+        <RouterProvider router={router} />;
+      <AuthProvider/>
+  )
+  
+};
 
 export default App;

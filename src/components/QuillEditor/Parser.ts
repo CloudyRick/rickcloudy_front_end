@@ -4,19 +4,18 @@ import { remark } from "remark";
 import remarkHtml from "remark-html";
 import remarkStringify from "remark-stringify";
 
-
 export function markdownToHtml(markdownText: string) {
-    const file = remark().use(remarkHtml).processSync(markdownText);
+  const file = remark().use(remarkHtml).processSync(markdownText);
 
-    return String(file);
+  return String(file);
 }
 
 export function htmlToMarkdown(htmlText: string) {
-    const file = remark()
-                    .use(rehypeParse, { emitParseErrors: true, duplicateAttribute: false })
-                    .use(rehypeRemark)
-                    .use(remarkStringify)
-                    .processSync(htmlText);
+  const file = remark()
+    .use(rehypeParse, { emitParseErrors: true, duplicateAttribute: false })
+    .use(rehypeRemark)
+    .use(remarkStringify)
+    .processSync(htmlText);
 
-    return String(file);
+  return String(file);
 }
