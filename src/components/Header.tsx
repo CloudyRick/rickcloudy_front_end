@@ -59,12 +59,12 @@ export const Header = ({ isAuthenticated }: IElementProps): JSX.Element => {
       <div className="container lg:max-w-[80%] mx-auto relative p-4 flex justify-between items-center">
         {/* logo */}
         <a
-          href=""
+          href="/"
           className={`text-xl font-bold leading-none ${
             openNav ? "hidden" : ""
           }`}
         >
-          <h1>Ricky Cloudy</h1>
+          <h1>RickCloudy</h1>
         </a>
         <div
           onClick={() => setOpenNav(!openNav)}
@@ -97,8 +97,8 @@ export const Header = ({ isAuthenticated }: IElementProps): JSX.Element => {
           id="mobile-menu"
         >
           <div className="flex relative items-center mb-8 text-xl">
-            <a href="" className="font-bold leading-none">
-              <h1>Ricky Cloudy</h1>
+            <a href="/" className="font-bold leading-none">
+              <h1>RickCloudy</h1>
             </a>
             <div
               onClick={() => setOpenNav(!openNav)}
@@ -112,7 +112,7 @@ export const Header = ({ isAuthenticated }: IElementProps): JSX.Element => {
               {isAuthenticated ? (
                 <li key={"dashboard"}>
                   <Link
-                    to="/dashboard"
+                    to="/admin/dashboard"
                     className="block p-4 text-sm font-epilogue text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
                     onClick={() => setOpenNav(false)}
                   >

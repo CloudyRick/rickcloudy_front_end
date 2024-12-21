@@ -36,7 +36,7 @@ const Footer = (): JSX.Element => {
                                 <ul className='list-unstyled'>
                                 {
                                     navMenu.map((item) => (
-                                        <li>
+                                        <li key={item.id}>
                                             <a className='text-gray-600 hover:text-gray-800 font-semibold block pb-2 text-sm' href={item.link}>{item.name}</a>
                                         </li>
                                     ))
@@ -48,7 +48,7 @@ const Footer = (): JSX.Element => {
                                 <ul className='list-unstyled'>
                                 {
                                     otherResourcesFooter.map((item) => (
-                                        <li>
+                                        <li key={item.id}>
                                             <a className='text-gray-600 hover:text-gray-800 font-semibold block pb-2 text-sm' href={item.link}>{item.name}</a>
                                         </li>
                                     ))

@@ -7,17 +7,17 @@ export interface ISkill {
 }
 
 export const navMenu = [
-  { name: "Home", link: "/" },
-  { name: "Blogs", link: "/blog-list" },
-  { name: "Services", link: "/services" },
-  { name: "Projects", link: "/projects" },
-  { name: "About", link: "/about-me" },
+  { id: 1, name: "Home", link: "/" },
+  { id: 2, name: "Blogs", link: "/blog-list" },
+  { id: 3, name: "Services", link: "/services" },
+  { id: 4, name: "Projects", link: "/projects" },
+  { id: 5, name: "About", link: "/about-me" },
 ];
 
 export const otherResourcesFooter = [
-  { name: "Privacy Policy", link: "/privacy-policies" },
-  { name: "Terms & Condition", link: "/terms-conditions" },
-  { name: "Contact Us", link: "/contact-us" },
+  { id: 1, name: "Privacy Policy", link: "/privacy-policies" },
+  { id: 2, name: "Terms & Condition", link: "/terms-conditions" },
+  { id: 3, name: "Contact Us", link: "/contact-us" },
 ];
 
 export const skills: ISkill[] = [

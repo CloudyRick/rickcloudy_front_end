@@ -1,12 +1,12 @@
 import Home from "../pages/Home";
 import { RouteObject } from "react-router-dom";
-import SignIn from "../pages/HireMe";
 import SignUp from "../pages/SignUp";
 import ForgotPassword from "../pages/ForgotPassword";
-import AdminDashboard from "../pages/protected/admin/AdminDashboard";
 import AboutMe from "../pages/AboutMe";
 import NotFound from "../pages/NotFound";
-import BlogCreation from "../pages/protected/admin/BlogCreation";
+import Login from "../pages/Login";
+import AdminDashboard from "../pages/private/admin/AdminDashboard";
+import BlogCreation from "../pages/private/admin/BlogCreation";
 
 export const adminRoutes: RouteObject[] = [
   {
@@ -21,16 +21,16 @@ export const adminRoutes: RouteObject[] = [
 
 export const protectedRoutes: RouteObject[] = [
   {
-    path: "sign-in",
-    element: <SignIn />,
-  },
-  {
     path: "sign-up",
     element: <SignUp />,
   },
   {
     path: "forgot-password",
     element: <ForgotPassword />,
+  },
+  {
+    path: "login",
+    element: <Login />,
   },
 ];
 
