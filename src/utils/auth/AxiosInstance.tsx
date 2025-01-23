@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, AxiosError } from "axios";
+import axios from "axios";
 
-const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "http://localhost:8088",
+const axiosInstance = axios.create({
+  baseURL: "http://rickcloudy.com/api",
   headers: {
     "Content-Type": "application/json", // Define default headers here
   },
@@ -17,7 +17,7 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error: AxiosError) => {
+  (error) => {
     return Promise.reject(error);
   }
 );

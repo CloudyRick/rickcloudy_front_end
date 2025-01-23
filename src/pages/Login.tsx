@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import FormInput from "../components/FormInput";
 import axiosInstance from "../utils/auth/AxiosInstance";
+import { LoginResponse } from "../types/propType";
 
 const Login = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");
@@ -30,10 +31,13 @@ const Login = (): JSX.Element => {
       console.log("Password:", password);
       // Add your authentication API call here
       try {
-        const response = await axiosInstance.post("/auth/login", {
-          username,
-          password,
-        });
+        const response = await axiosInstance.post<LoginResponse>(
+          "/auth/login",
+          {
+            username,
+            password,
+          }
+        );
         console.log("Response :", response);
         if (response.data.data.accessToken && response.data.data.refreshToken) {
           // Save the access and refresh tokens in localStorage or sessionStorage

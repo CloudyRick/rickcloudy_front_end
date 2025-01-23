@@ -76,7 +76,7 @@ const BlogCreation = () => {
   // Prepare form data for submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setAuthorId(1);
     // Extract all image URLs from the blog content
     const parser = new DOMParser();
     const doc = parser.parseFromString(blogContent, "text/html");
