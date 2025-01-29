@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://rickcloudy.com/api",
+  baseURL: "https://rickcloudy.com/api",
   headers: {
     "Content-Type": "application/json", // Define default headers here
   },
