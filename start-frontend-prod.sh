@@ -13,7 +13,7 @@ docker build -t $IMAGE_NAME .
 # Check if the container is already running
 if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
     echo "Stopping and removing existing container: $CONTAINER_NAME..."
-    docker stop $CONTAINER_NAME
+    docker s    top $CONTAINER_NAME
     docker rm $CONTAINER_NAME
 fi
 
