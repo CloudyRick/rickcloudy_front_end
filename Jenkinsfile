@@ -92,7 +92,7 @@ pipeline {
             steps {
                 script {
                     // Configure Git with user and email
-                    sh 'git config user.name "Your Name"'
+                    sh 'git config user.name "Anak Anjing"'
                     sh 'git config user.email "your.email@example.com"'
                     // Add version.txt
                     sh 'git add app_version.txt'
