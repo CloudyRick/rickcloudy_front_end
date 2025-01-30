@@ -73,7 +73,7 @@ pipeline {
                     sshagent(['jenkins-agent']) {
                         sh '''
                             echo 'Logged into remote server'
-                            scp ./start-frontend-prod.sh jenkins-agent@rickcloudy.com:/home/jenkins-agent/
+                            scp start-frontend-prod.sh jenkins-agent@rickcloudy.com:/home/jenkins-agent/
                             ssh jenkins-agent@rickcloudy.com
                             cd /home/jenkins-agent
                             ls
