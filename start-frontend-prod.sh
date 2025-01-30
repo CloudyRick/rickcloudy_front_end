@@ -1,4 +1,5 @@
 #!/bin/bash
+-x
 
 CONTAINER_NAME="rickcloudy-fe-prod"
 HOST_PORT=3000
