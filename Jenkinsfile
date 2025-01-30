@@ -50,12 +50,13 @@ pipeline {
                             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_URL
                             docker build -t $IMAGE_NAME .
                             echo "Tagging and pushing versioned image..."
-                            docker image tag $IMAGE_NAME $IMAGE_NAME:$APP_VERSION
-                            docker push  $IMAGE_NAME:$APP_VERSION $AWS_ECR_REPO_URL:$APP_VERSION
+                             echo "Tagging Docker Image..."
+                            docker tag $IMAGE_NAME $AWS_ECR_REPO_URL:$APP_VERSION
+                            docker tag $IMAGE_NAME $AWS_ECR_REPO_URL:latest
 
-                            echo "Tagging and pushing latest image..."
-                            docker image tag $IMAGE_NAME $IMAGE_NAME:latest
-                            docker push $IMAGE_NAME:latest $AWS_ECR_REPO_URL:latest
+                            echo "Pushing Docker Image..."
+                            docker push $AWS_ECR_REPO_URL:$APP_VERSION
+                            docker push $AWS_ECR_REPO_URL:latest
                             
                             echo "Versioned and latest image pushed successfully!"
                         '''
