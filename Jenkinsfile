@@ -75,7 +75,8 @@ pipeline {
                             echo 'Logged into remote server'
                             scp ./start-frontend-prod.sh jenkins-agent@rickcloudy.com:/home/jenkins-agent/
                             ssh jenkins-agent@rickcloudy.com
-                            cat /home/jenkins-agent/start-frontend-prod.sh
+                            cd /home/jenkins-agent
+                            ls
                         '''
                     }
                 }
