@@ -104,7 +104,6 @@ pipeline {
                                 docker images
                                 cd /home/jenkins-agent
                                 ls
-                                chmod +x start-frontend-prod.sh
                                 ./start-frontend-prod.sh
                             '''
                         }
