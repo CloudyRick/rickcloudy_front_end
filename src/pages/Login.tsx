@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FormInput from "../components/FormInput";
 import axiosInstance from "../utils/auth/AxiosInstance";
-import { LoginResponse } from "../types/propType";
+import { LoginResponse } from "../types/dto";
 
 const Login = (): JSX.Element => {
   const [username, setUsername] = useState<string>("");

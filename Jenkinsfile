@@ -7,6 +7,7 @@ pipeline {
         AWS_REGION = 'ap-southeast-2'
         AWS_ACCOUNT_URL = '637423465400.dkr.ecr.ap-southeast-2.amazonaws.com'
         AWS_ECR_REPO_URL = '637423465400.dkr.ecr.ap-southeast-2.amazonaws.com/rickcloudy_front_end'
+        IMAGE_NAME = 'rickcloudy-fe-prod'
     }
 
     stages {
@@ -43,38 +44,67 @@ pipeline {
             steps {
                 echo 'Building Docker Image...'
                 script {
-                    docker.withRegistry("https://${env.AWS_ECR_REPO_URL}", 'aws-cloudyrick-jenkins') {
-                        def image = docker.build("${env.AWS_ECR_REPO_URL}:${env.APP_VERSION}")
-                        echo "Docker image ${env.AWS_ECR_REPO_URL}:${env.APP_VERSION} built successfully!"
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'jenkins-job-rickcloudy']]) {
+                        sh '''
+                            echo "Logging into AWS ECR..."
+                            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_URL
+                            docker build -t $IMAGE_NAME .
+                            echo "Tagging and pushing versioned image..."
+                            docker tag $IMAGE_NAME:$APP_VERSION $AWS_ECR_REPO_URL:$APP_VERSION
+                            docker push  $IMAGE_NAME:$APP_VERSION $AWS_ECR_REPO_URL:$APP_VERSION
+
+                            echo "Tagging and pushing latest image..."
+                            docker tag $IMAGE_NAME:latest $AWS_ECR_REPO_URL:latest
+                            docker push  $IMAGE_NAME:latest $AWS_ECR_REPO_URL:latest
+                            
+                            echo "Versioned and latest image pushed successfully!"
+                        '''
                     }
                 }
             }
         }
 
-        stage('Push Docker Image to AWS ECR') {
+        stage('Copy Deploy Script into Application Server') {
             steps {
-                echo 'Pushing Docker Image to AWS ECR...'
                 script {
-                    docker.withRegistry("https://${env.AWS_ECR_REPO_URL}", 'aws-cloudyrick-jenkins') {
-                        def image = docker.image("${env.AWS_ECR_REPO_URL}:${env.APP_VERSION}")
-                        image.push()
-                        echo "Docker image ${env.AWS_ECR_REPO_URL}:${env.APP_VERSION} pushed successfully!"
+                    echo "Copying script into remote server..."
 
-                        // Tag the image with 'latest' and push
-                        image.push('latest')
-                        echo "Docker image ${env.AWS_ECR_REPO_URL}:latest pushed successfully!"
+                    sshagent(['jenkins-agent']) {
+                        sh '''
+                            echo 'Logged into remote server'
+                            scp ./start-frontend-prod.sh jenkins-agent@rickcloudy.com:/home/jenkins-agent/
+
+                        '''
                     }
                 }
             }
         }
+
 
         stage('Deploy') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'github_cred', keyFileVariable: 'SSH_KEY')]) {
-                    sh '''
-                    export GIT_SSH_COMMAND="ssh -i $SSH_KEY"
-                    ./deploy_app.sh
-                    '''
+                script {
+                    echo "SSH into remote server and pull the image from ECR..."
+
+                    // Use sshagent to authenticate using SSH credentials stored in Jenkins
+                    sshagent(['jenkins-agent']) {  // Replace with your actual SSH credentials ID
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'jenkins-job-rickcloudy']]) {
+                            sh '''
+                                ssh jenkins-agent@rickcloudy.com
+                                echo 'Logged into remote server'
+
+                                # Authenticate Docker to ECR
+                                aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_URL}
+
+                                # Pull the image from ECR
+                                docker pull ${AWS_ECR_REPO_URL}:latest
+                                docker images
+                                cd /home/jenkins-agent
+                                chmod +x start-frontend-prod.sh
+                                ./start-frontend-prod.sh
+                            '''
+                        }
+                    }
                 }
             }
         }
@@ -99,7 +129,6 @@ pipeline {
                     // Commit with a message to skip CI
                     sh 'git commit -m "Update app_version.txt [skip ci]"'
                     // Push changes
-                    sh 'git push'
                 }
             }
         }

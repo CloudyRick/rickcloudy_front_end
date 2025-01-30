@@ -1,14 +1,11 @@
 #!/bin/bash
 
-# Define variables
-IMAGE_NAME="rickcloudy-fe-prod"
 CONTAINER_NAME="rickcloudy-fe-prod"
 HOST_PORT=3000
 CONTAINER_PORT=80
 
 # Build the Docker image
-echo "Building Docker image: $IMAGE_NAME..."
-docker build -t $IMAGE_NAME .
+echo "Pulling docker image from ECR: $IMAGE_NAME..."
 
 # Check if the container is already running
 if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then

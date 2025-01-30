@@ -4,6 +4,8 @@ import "react-quill/dist/quill.snow.css";
 import FormInput from "../../../components/FormInput";
 import { FormInputProps } from "../../../types/propType";
 import QuillEditor from "../../../components/QuillEditor/QuillEditor";
+import axiosInstance from "../../../utils/auth/AxiosInstance";
+import { BlogDTO, ImageDTO } from "../../../types/dto";
 
 const inputList: FormInputProps[] = [
   {
@@ -57,16 +59,16 @@ const BlogCreation = () => {
     formData.append("files", file);
 
     try {
-      const response = await fetch("http://localhost:8088/blogs/images", {
+      const response = await axiosInstance.post<ImageDTO>("/images", {
         method: "POST",
         body: formData,
       });
-      if (!response.ok) {
+      if (!response.data.success) {
         throw new Error("Image upload failed");
       }
-      const res = await response.json();
+      const res = await response.data;
       console.log("Image upload response:", res);
-      return res.data[0].url; // Assuming the server returns the uploaded image URL
+      return res.data.url; // Assuming the server returns the uploaded image URL
     } catch (error) {
       console.error("Error uploading image:", error);
       throw new Error("Error uploading image");
@@ -98,19 +100,19 @@ const BlogCreation = () => {
 
     try {
       // Step 1: Upload content and images
-      const response = await fetch("http://localhost:8088/blogs", {
+      const response = await axiosInstance.post<BlogDTO>("/blogs", {
         method: "POST",
         body: formData,
       });
 
-      if (!response.ok) {
-        const errorBody = await response.json(); // Try to read the response body as JSON
+      if (!response.data.success) {
+        const errorBody = await response.data.message; // Try to read the response body as JSON
         console.error("Error response:", errorBody); // Log the error details
         throw new Error("Failed to create blog post ");
       }
 
       // Step 2: Get image URLs and insert into content
-      const responseData = await response.json();
+      const responseData = await response.data;
       console.log("API Response ", responseData);
 
       alert("Blog post created successfully!");

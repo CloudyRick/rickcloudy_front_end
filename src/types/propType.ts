@@ -25,10 +25,3 @@ export interface ImageProp {
   credit: string;
   imageType: string;
 }
-
-export interface LoginResponse {
-  data: {
-    accessToken: string;
-    refreshToken: string;
-  };
-}
