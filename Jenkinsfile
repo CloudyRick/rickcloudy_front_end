@@ -74,7 +74,8 @@ pipeline {
                         sh '''
                             echo 'Logged into remote server'
                             scp ./start-frontend-prod.sh jenkins-agent@rickcloudy.com:/home/jenkins-agent/
-
+                            ssh jenkins-agent@rickcloudy.com
+                            cat /home/jenkins-agent/start-frontend-prod.sh
                         '''
                     }
                 }
@@ -101,6 +102,7 @@ pipeline {
                                 docker pull ${AWS_ECR_REPO_URL}:latest
                                 docker images
                                 cd /home/jenkins-agent
+                                ls
                                 chmod +x start-frontend-prod.sh
                                 ./start-frontend-prod.sh
                             '''

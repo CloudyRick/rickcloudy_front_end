@@ -4,7 +4,6 @@ CONTAINER_NAME="rickcloudy-fe-prod"
 HOST_PORT=3000
 CONTAINER_PORT=80
 
-# Build the Docker image
 echo "Pulling docker image from ECR: $IMAGE_NAME..."
 
 # Check if the container is already running
@@ -16,6 +15,6 @@ fi
 
 # Run the Docker container
 echo "Starting Docker container: $CONTAINER_NAME..."
-docker run -d --name $CONTAINER_NAME -p $HOST_PORT:$CONTAINER_PORT $IMAGE_NAME
+docker run -d --name $CONTAINER_NAME -p $HOST_PORT:$CONTAINER_PORT $AWS_ECR_REPO_URL:latest
 
 echo "Frontend is running at port $HOST_PORT"
