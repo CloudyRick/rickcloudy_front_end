@@ -84,7 +84,6 @@ pipeline {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'jenkins-job-rickcloudy']]) {
                             sh '''
                                 ssh jenkins-agent@rickcloudy.com "echo 'Logged into remote server' && aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_URL} && docker pull ${AWS_ECR_REPO_URL}:latest && bash /home/jenkins-agent/start-frontend-prod.sh"
-
                             '''
                         }
                     }
@@ -102,11 +101,11 @@ pipeline {
             echo 'Build and deployment succeeded!'
             script {
                 sh '''
-                    git config user.name "Anak Anjing"
-                    git config user.email "your.email@example.com"
-                    git add app_version.txt
-                    git commit -m "Update app_version.txt [skip ci]"
-                    git push origin main
+                    # git config user.name "Anak Anjing"
+                    # git config user.email "your.email@example.com"
+                    # git add app_version.txt
+                    # git commit -m "Update app_version.txt [skip ci]"
+                    # git push origin main
                 '''
             }
         }
