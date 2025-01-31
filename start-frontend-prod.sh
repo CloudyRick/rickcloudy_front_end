@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE_NAME=
+IMAGE_NAME=637423465400.dkr.ecr.ap-southeast-2.amazonaws.com/rickcloudy_front_end:latest
 CONTAINER_NAME="rickcloudy-fe-prod"
 HOST_PORT=3000
 CONTAINER_PORT=80
@@ -16,6 +16,6 @@ fi
 
 # Run the Docker container
 echo "Starting Docker container: $CONTAINER_NAME..."
-docker run -d --name $CONTAINER_NAME -p $HOST_PORT:$CONTAINER_PORT $AWS_ECR_REPO_URL:latest
+docker run -d --name $CONTAINER_NAME -p $HOST_PORT:$CONTAINER_PORT $IMAGE_NAME
 
 echo "Frontend is running at port $HOST_PORT"
