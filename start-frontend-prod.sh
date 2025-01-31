@@ -1,6 +1,6 @@
 #!/bin/bash
--x
 
+IMAGE_NAME=
 CONTAINER_NAME="rickcloudy-fe-prod"
 HOST_PORT=3000
 CONTAINER_PORT=80

@@ -83,19 +83,8 @@ pipeline {
                     sshagent(['jenkins-agent']) {
                         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'jenkins-job-rickcloudy']]) {
                             sh '''
-                                ssh jenkins-agent@rickcloudy.com << EOF
-                                    echo 'Logged into remote server'
+                                ssh jenkins-agent@rickcloudy.com "echo 'Logged into remote server' && aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_URL} && docker pull ${AWS_ECR_REPO_URL}:latest && bash /home/jenkins-agent/start-frontend-prod.sh"
 
-                                    # Authenticate Docker to ECR
-                                    aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_URL}
-
-                                    # Pull the latest image
-                                    docker pull ${AWS_ECR_REPO_URL}:latest
-                                    docker images
-
-                                    # Run the deployment script
-                                    bash /home/jenkins-agent/start-frontend-prod.sh
-                                EOF
                             '''
                         }
                     }
