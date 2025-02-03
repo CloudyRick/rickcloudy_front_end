@@ -24,7 +24,8 @@ pipeline {
                     if (commitMessage.contains('[skip ci]')) {
                         echo 'Skipping CI as per commit message.'
                         currentBuild.result = 'SUCCESS'
-                        error('Skipping further stages.')
+                        error('Skipping further stages...')
+
                     }
                 }
             }
