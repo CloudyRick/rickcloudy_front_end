@@ -112,10 +112,12 @@ pipeline {
                 echo 'Build and deployment succeeded!'
                 script {
                     sh '''
+                        git checkout main || git checkout -b main  # Ensure we are on main
                         git config user.name "CloudyRick"
-                        git config user.email "cloudyricky.dev@gmail.com"
+                        git config user.email "your-email@example.com"
                         git add app_version.txt
                         git commit -m "Update app_version.txt [skip ci]"
+                        git pull origin main  # Sync with remote in case of conflicts
                         git push origin main
                     '''
                 }
