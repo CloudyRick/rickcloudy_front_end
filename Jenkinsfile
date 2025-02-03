@@ -23,9 +23,9 @@ pipeline {
                     echo "Latest Commit Message: ${commitMessage}"
                     if (commitMessage.contains('[skip ci]')) {
                         echo 'Skipping CI as per commit message.'
-                        currentBuild.result = 'SUCCESS'  // Mark the build as successful
                         // Exit here to stop further stages
                         error('Skipping further stages...')  // Use error to stop the pipeline
+                        currentBuild.result = 'SUCCESS'  // Mark the build as successful
                     }
                 }
             }
