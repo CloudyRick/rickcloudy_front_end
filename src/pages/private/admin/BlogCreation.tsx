@@ -40,7 +40,7 @@ const BlogCreation = () => {
     status: "DRAFT",
   });
   const [blogContent, setBlogContent] = useState<string>("");
-  const [authorId, setAuthorId] = useState<number>(121212415);
+  const [authorId, setAuthorId] = useState<number>(1);
 
   const handleContentChange = (content: string) => {
     setBlogContent(content); // Only update if content changes
