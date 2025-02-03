@@ -70,8 +70,9 @@ pipeline {
                             
                             echo "Tagging and pushing image..."
                             docker tag $IMAGE_NAME $AWS_ECR_REPO_URL:$APP_VERSION
-                            docker tag $IMAGE_NAME $AWS_ECR_REPO_URL:latest
                             docker push $AWS_ECR_REPO_URL:$APP_VERSION
+                            
+                            docker tag $IMAGE_NAME $AWS_ECR_REPO_URL:latest
                             docker push $AWS_ECR_REPO_URL:latest
                         '''
                     }
@@ -139,7 +140,7 @@ pipeline {
                 try {
                     sh "docker rmi -f ${AWS_ECR_REPO_URL}:${APP_VERSION}"
                 } catch (Exception e) {
-                    sh 'echo "Failure"'
+                    sh 'echo "Failure on rolling back docker image"'
                 }
             }
         }
