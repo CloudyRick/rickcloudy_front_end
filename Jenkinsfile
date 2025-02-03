@@ -18,7 +18,7 @@ pipeline {
 
         stage('Check Skip CI') {
             steps {
-                script {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
                     echo "Latest Commit Message: ${commitMessage}"
                     if (commitMessage.contains('[skip ci]')) {
