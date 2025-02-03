@@ -24,6 +24,8 @@ FROM nginx:alpine
 # Copy the build output to replace the default nginx contents
 COPY --from=build /app/dist /usr/share/nginx/html
 
+# Copy the default config file for runtime injection
+COPY public/config.js /usr/share/nginx/html/config.js
 
 # Step 3: Remove the default Nginx configuration file
 RUN rm /etc/nginx/conf.d/default.conf
@@ -31,9 +33,15 @@ RUN rm /etc/nginx/conf.d/default.conf
 # Step 4: Copy your custom Nginx config file into the container
 COPY nginx.conf /etc/nginx/conf.d/
 
+
+# Copy entrypoint script to modify environment variables dynamically
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Expose port 80 to the Docker host, so we can access it 
 # from the outside.
 EXPOSE 80
 
+ENTRYPOINT ["/entrypoint.sh"]
 # Start nginx and keep the process running
 CMD ["nginx", "-g", "daemon off;"]

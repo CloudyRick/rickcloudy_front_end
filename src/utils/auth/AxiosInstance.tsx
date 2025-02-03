@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://rickcloudy.com/api",
+  baseURL: window.APP_CONFIG?.VITE_BASE_API_URL,
   headers: {
     "Content-Type": "application/json", // Define default headers here
   },
@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config: any) => {
     const token = localStorage.getItem("accessToken"); // Get token from localStorage
-
+    console.log("BASE API URL: " + window.APP_CONFIG?.VITE_BASE_API_URL);
     if (token && config.headers) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }

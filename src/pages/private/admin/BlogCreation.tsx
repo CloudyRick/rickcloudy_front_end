@@ -97,12 +97,15 @@ const BlogCreation = () => {
 
     // Append image URLs as a separate field
     formData.append("imageUrl", JSON.stringify(imgUrls));
+    console.log(formData);
 
     try {
       // Step 1: Upload content and images
-      const response = await axiosInstance.post<BlogDTO>("/blogs", {
-        method: "POST",
-        body: formData,
+      const response = await axiosInstance.post<BlogDTO>("/blogs", formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data", // ✅ Required for FormData
+        },
       });
 
       if (!response.data.success) {

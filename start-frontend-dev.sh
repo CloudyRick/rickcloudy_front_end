@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -x
 
 SECRET_NAME="prod/RickCloudy/FrontEnd"
 REGION="ap-southeast-2"
@@ -16,12 +17,12 @@ fi
 # Export environment variables for Spring Boot
 export BASE_URL=$(echo $SECRET_VALUE | jq -r .VITE_BASE_API_URL)
 
-IMAGE_NAME=637423465400.dkr.ecr.ap-southeast-2.amazonaws.com/rickcloudy_front_end:latest
-CONTAINER_NAME="rickcloudy-fe-prod"
+IMAGE_NAME=rickcloudy-fe-dev
+CONTAINER_NAME="rickcloudy-fe-dev"
 HOST_PORT=3000
 CONTAINER_PORT=80
 
-echo "Pulling docker image from ECR: $IMAGE_NAME..."
+docker build -t $IMAGE_NAME .
 
 # Check if the container is already running
 if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
