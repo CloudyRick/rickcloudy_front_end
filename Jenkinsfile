@@ -20,6 +20,7 @@ pipeline {
             steps {
                 script {
                     def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                    echo "Latest Commit Message: ${commitMessage}"
                     if (commitMessage.contains('[skip ci]')) {
                         echo 'Skipping CI as per commit message.'
                         currentBuild.result = 'SUCCESS'
@@ -28,6 +29,7 @@ pipeline {
                 }
             }
         }
+
 
         stage('Prepare Version') {
             steps {
