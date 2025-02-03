@@ -111,7 +111,7 @@ pipeline {
             steps {
                 echo 'Build and deployment succeeded!'
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    withCredentials([usernamePassword(credentialsId: 'github-cred', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
                         sh '''
                             git checkout main || git checkout -b main
                             git config user.name "CloudyRick"
