@@ -18,14 +18,16 @@ pipeline {
 
         stage('Check Skip CI') {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
-                    echo "Latest Commit Message: ${commitMessage}"
-                    if (commitMessage.contains('[skip ci]')) {
-                        echo 'Skipping CI as per commit message.'
-                        currentBuild.result = 'SUCCESS'  // Mark the build as successful
-                        // Exit here to stop further stages
-                        error('Skipping further stages...')  // Use error to stop the pipeline
+                script {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
+                        def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                        echo "Latest Commit Message: ${commitMessage}"
+                        if (commitMessage.contains('[skip ci]')) {
+                            echo 'Skipping CI as per commit message.'
+                            currentBuild.result = 'SUCCESS'  // Mark the build as successful
+                            // Exit here to stop further stages
+                            error('Skipping further stages...')  // Use error to stop the pipeline
+                        }
                     }
                 }
             }
