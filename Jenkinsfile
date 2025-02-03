@@ -139,7 +139,7 @@ pipeline {
             script {
                 try {
                     sh "docker rmi -f ${AWS_ECR_REPO_URL}:${APP_VERSION}"
-                } catch {
+                } catch (Exception e) {
                     sh 'echo "Failure"'
                 }
             }
