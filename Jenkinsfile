@@ -23,9 +23,8 @@ pipeline {
                     echo "Latest Commit Message: ${commitMessage}"
                     if (commitMessage.contains('[skip ci]')) {
                         echo 'Skipping CI as per commit message.'
-                        // Exit here to stop further stages
-                        error('Skipping further stages...')  // Use error to stop the pipeline
                         currentBuild.result = 'SUCCESS'  // Mark the build as successful
+                        throw new org.jenkinsci.plugins.workflow.steps.FlowInterruptedException(hudson.model.Result.SUCCESS)
                     }
                 }
             }
