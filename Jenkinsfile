@@ -137,7 +137,9 @@ pipeline {
         failure {
             echo "Deployment failed. Rolling back..."
             script {
-                sh "docker rmi -f ${AWS_ECR_REPO_URL}:${APP_VERSION}"
+                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh "docker rmi -f ${AWS_ECR_REPO_URL}:${APP_VERSION}"
+                }
             }
         }
     }
