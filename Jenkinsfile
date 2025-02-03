@@ -106,24 +106,28 @@ pipeline {
                 }
             }
         }
+
+        stage('Commit App Version') {
+            steps {
+                echo 'Build and deployment succeeded!'
+                script {
+                    sh '''
+                        git config user.name "CloudyRick"
+                        git config user.email "cloudyricky.dev@gmail.com"
+                        git add app_version.txt
+                        git commit -m "Update app_version.txt [skip ci]"
+                        git push origin main
+                    '''
+                }
+            }
+
+        }
     }
 
     post {
         always {
             echo 'Cleaning up workspace...'
             deleteDir()
-        }
-        success {
-            echo 'Build and deployment succeeded!'
-            script {
-                sh '''
-                    git config user.name "CloudyRick"
-                    git config user.email "cloudyricky.dev@gmail.com"
-                    git add app_version.txt
-                    git commit -m "Update app_version.txt [skip ci]"
-                    git push origin main
-                '''
-            }
         }
         failure {
             echo "Deployment failed. Rolling back..."
