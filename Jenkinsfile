@@ -16,6 +16,19 @@ pipeline {
             }
         }
 
+        stage('Check Skip CI') {
+            steps {
+                script {
+                    def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                    if (commitMessage.contains('[skip ci]')) {
+                        echo 'Skipping CI as per commit message.'
+                        currentBuild.result = 'SUCCESS'
+                        error('Skipping further stages.')
+                    }
+                }
+            }
+        }
+
         stage('Prepare Version') {
             steps {
                 script {
@@ -101,11 +114,11 @@ pipeline {
             echo 'Build and deployment succeeded!'
             script {
                 sh '''
-                    # git config user.name "Anak Anjing"
-                    # git config user.email "your.email@example.com"
-                    # git add app_version.txt
-                    # git commit -m "Update app_version.txt [skip ci]"
-                    # git push origin main
+                    git config user.name "CloudyRick"
+                    git config user.email "cloudyricky.dev@gmail.com"
+                    git add app_version.txt
+                    git commit -m "Update app_version.txt [skip ci]"
+                    git push origin main
                 '''
             }
         }
