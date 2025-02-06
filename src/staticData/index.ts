@@ -8,7 +8,7 @@ export interface ISkill {
 
 export const navMenu = [
   { id: 1, name: "Home", link: "/" },
-  { id: 2, name: "Blogs", link: "/blog-list" },
+  { id: 2, name: "Blogs", link: "/blogs" },
   { id: 3, name: "Services", link: "/services" },
   { id: 4, name: "Projects", link: "/projects" },
   { id: 5, name: "About", link: "/about-me" },

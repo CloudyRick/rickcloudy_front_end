@@ -59,16 +59,22 @@ const BlogCreation = () => {
     formData.append("files", file);
 
     try {
-      const response = await axiosInstance.post<ImageDTO>("/images", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await axiosInstance.post<ImageDTO>(
+        "/blogs/images",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       if (!response.data.success) {
         throw new Error("Image upload failed");
       }
-      const res = await response.data;
-      console.log("Image upload response:", res);
-      return res.data.url; // Assuming the server returns the uploaded image URL
+
+      const res = await response.data.data[0].url;
+      console.log("Image upload response: BlogCreation --- ", res);
+      return res;
     } catch (error) {
       console.error("Error uploading image:", error);
       throw new Error("Error uploading image");
@@ -97,7 +103,7 @@ const BlogCreation = () => {
 
     // Append image URLs as a separate field
     formData.append("imageUrl", JSON.stringify(imgUrls));
-    console.log(formData);
+    console.log("Image URL ", imgUrls);
 
     try {
       // Step 1: Upload content and images

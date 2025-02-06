@@ -7,6 +7,9 @@ import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 import AdminDashboard from "../pages/private/admin/AdminDashboard";
 import BlogCreation from "../pages/private/admin/BlogCreation";
+import BlogsPage from "../pages/BlogLists";
+import BlogDetail from "../pages/BlogDetail";
+import AdminBlogList from "../pages/private/admin/AdminBlogList";
 
 export const adminRoutes: RouteObject[] = [
   {
@@ -16,6 +19,14 @@ export const adminRoutes: RouteObject[] = [
   {
     path: "create-blog",
     element: <BlogCreation />,
+  },
+  {
+    path: "blogs",
+    element: <AdminBlogList />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ];
 
@@ -42,6 +53,18 @@ export const publicRoutes: RouteObject[] = [
   {
     path: "/about-me",
     element: <AboutMe />,
+  },
+  {
+    path: "/blogs",
+    element: <BlogsPage />,
+  },
+  {
+    path: "/blogs/:id",
+    element: <BlogDetail />,
+  },
+  {
+    path: "/404",
+    element: <NotFound />,
   },
   {
     path: "*",
