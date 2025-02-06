@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import BlogCard from "../components/BlogCard";
 import { Blog } from "../types/dto";
 import axiosInstance from "../utils/auth/AxiosInstance";
+import ErrorPage from "./ErrorPage";
 
 const BlogsPage = (): JSX.Element => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [emptyBlog, setEmptyBlog] = useState<boolean>(false);
   const isFetched = useRef(false); // Prevents refetching
 
   useEffect(() => {
@@ -24,8 +26,12 @@ const BlogsPage = (): JSX.Element => {
         } else {
           throw new Error("Failed to fetch blogs");
         }
-      } catch (err) {
-        setError("Error fetching blogs");
+      } catch (err: any) {
+        if (err.response.status == 404) {
+          setEmptyBlog(true);
+        } else {
+          setError("Error fetching blogs");
+        }
       } finally {
         setLoading(false);
         isFetched.current = true; // ✅ Marks as fetched
@@ -45,7 +51,20 @@ const BlogsPage = (): JSX.Element => {
         <p className="text-center text-black font-bold">Loading...</p>
       </div>
     );
-  if (error) return <p>{error}</p>;
+  if (emptyBlog)
+    return (
+      <ErrorPage
+        errorCode={404}
+        message="There is no blog yet at this time. I will update for more blog content soon. Thank you!"
+      />
+    );
+  if (error)
+    return (
+      <ErrorPage
+        errorCode={505}
+        message="There are some technical difficulties in the backend.. Sorry :("
+      />
+    );
 
   return (
     <div className="min-h-[90vh] flex justify-center pt-20">
