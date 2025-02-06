@@ -29,6 +29,8 @@ const QuillEditor = forwardRef<ReactQuill, QuillEditorProps>(
               return;
             }
 
+            console.log("Uploading image URL: in QUILL", imageUrl);
+
             const range = quill?.getSelection();
             if (range) {
               quill.insertEmbed(
