@@ -97,20 +97,18 @@ const BlogCreation = () => {
       authorId: authorId,
       content: blogContent, // Updated content, with inserted image URLs
     };
-
     // Append content as JSON string
     formData.append("blogPost", JSON.stringify(blogPost));
 
     // Append image URLs as a separate field
     formData.append("imageUrl", JSON.stringify(imgUrls));
-    console.log("Image URL ", imgUrls);
 
     try {
       // Step 1: Upload content and images
       const response = await axiosInstance.post<BlogDTO>("/blogs", formData, {
         withCredentials: true,
         headers: {
-          "Content-Type": "multipart/form-data", // ✅ Required for FormData
+          "Content-Type": "multipart/form-data",
         },
       });
 
