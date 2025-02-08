@@ -41,16 +41,27 @@ const UpdateBlog = () => {
     title: "",
     status: "DRAFT",
   });
+<<<<<<< HEAD
   const [authorId, setAuthorId] = useState<number>(1);
   const [blogContent, setBlogContent] = useState("");
+=======
+  const [blogContent, setBlogContent] = useState<string>("");
+>>>>>>> 0f56906 (Update blog page added)
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
+<<<<<<< HEAD
         const response = await axiosInstance.get<BlogDTO>(`/admin/blogs/${id}`);
         if (response.data.success) {
           const { title, blogStatus, content } = response.data.data;
           setFormValues({ title, status: blogStatus });
+=======
+        const response = await axiosInstance.get<BlogDTO>(`/blogs/${id}`);
+        if (response.data.success) {
+          const { title, blogStatus, content } = response.data.data;
+          setFormValues({ title, blogStatus });
+>>>>>>> 0f56906 (Update blog page added)
           setBlogContent(content);
         }
       } catch (error) {
@@ -83,8 +94,13 @@ const UpdateBlog = () => {
         throw new Error("Image upload failed");
       }
 
+<<<<<<< HEAD
       const res = response.data.data[0].url;
       console.log("Image upload response: UpdateBlog --- ", res);
+=======
+      const res = await response.data.data[0].url;
+      console.log("Image upload response: BlogCreation --- ", res);
+>>>>>>> 0f56906 (Update blog page added)
       return res;
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -101,6 +117,7 @@ const UpdateBlog = () => {
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
+<<<<<<< HEAD
 
     setAuthorId(1);
     // Extract all image URLs from the blog content
@@ -132,6 +149,19 @@ const UpdateBlog = () => {
           },
         }
       );
+=======
+    const updatedBlog = { ...formValues, content: blogContent };
+
+    try {
+      const response = await axiosInstance.put<BlogDTO>(
+        `/blogs/${id}`,
+        updatedBlog,
+        {
+          withCredentials: true,
+        }
+      );
+
+>>>>>>> 0f56906 (Update blog page added)
       if (response.data.success) {
         alert("Blog post updated successfully!");
       } else {
@@ -156,7 +186,10 @@ const UpdateBlog = () => {
           inputName={input.inputName}
           placeholderText={input.placeholderText}
           required={input.required}
+<<<<<<< HEAD
           value={formValues[input.inputId] || ""}
+=======
+>>>>>>> 0f56906 (Update blog page added)
           onChange={handleInputChange}
         />
       ))}
