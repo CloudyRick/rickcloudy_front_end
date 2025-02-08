@@ -123,7 +123,7 @@ const UpdateBlog = () => {
     formData.append("imageUrl", JSON.stringify(imgUrls));
     try {
       const response = await axiosInstance.put<BlogDTO>(
-        `/blogs/${id}`,
+        `/admin/blogs/${id}`,
         formData,
         {
           withCredentials: true,
