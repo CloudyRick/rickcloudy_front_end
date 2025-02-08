@@ -10,6 +10,7 @@ import BlogCreation from "../pages/private/admin/BlogCreation";
 import BlogsPage from "../pages/BlogLists";
 import BlogDetail from "../pages/BlogDetail";
 import AdminBlogList from "../pages/private/admin/AdminBlogList";
+import UpdateBlog from "../pages/private/admin/UpdateBlog";
 
 export const adminRoutes: RouteObject[] = [
   {
@@ -23,6 +24,10 @@ export const adminRoutes: RouteObject[] = [
   {
     path: "blogs",
     element: <AdminBlogList />,
+  },
+  {
+    path: "update-blog/:id",
+    element: <UpdateBlog />,
   },
   {
     path: "*",

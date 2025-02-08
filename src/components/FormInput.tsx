@@ -23,6 +23,7 @@ const FormInput = (props: FormInputProps) => {
           name={props.inputName}
           onChange={handleChange} // Ensure type compatibility
           required={props.required}
+          value={props.value}
         >
           <option value="">{props.placeholderText}</option>
           {props.options?.map((option) => (
@@ -40,6 +41,7 @@ const FormInput = (props: FormInputProps) => {
           placeholder={props.placeholderText}
           onChange={handleChange}
           required={props.required}
+          value={props.value}
         />
       )}
     </>
