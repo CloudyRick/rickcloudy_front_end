@@ -10,6 +10,7 @@ export interface FormInputProps {
   inputName: string;
   placeholderText: string;
   required: boolean;
+  value?: any;
   options?: { value: string; label: string }[];
   onChange?: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

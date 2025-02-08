@@ -41,7 +41,8 @@ const UpdateBlog = () => {
     title: "",
     status: "DRAFT",
   });
-  const [blogContent, setBlogContent] = useState<string>("");
+  const [authorId, setAuthorId] = useState<number>(1);
+  const [blogContent, setBlogContent] = useState("");
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -49,7 +50,7 @@ const UpdateBlog = () => {
         const response = await axiosInstance.get<BlogDTO>(`/blogs/${id}`);
         if (response.data.success) {
           const { title, blogStatus, content } = response.data.data;
-          setFormValues({ title, blogStatus });
+          setFormValues({ title, status: blogStatus });
           setBlogContent(content);
         }
       } catch (error) {
@@ -82,8 +83,8 @@ const UpdateBlog = () => {
         throw new Error("Image upload failed");
       }
 
-      const res = await response.data.data[0].url;
-      console.log("Image upload response: BlogCreation --- ", res);
+      const res = response.data.data[0].url;
+      console.log("Image upload response: UpdateBlog --- ", res);
       return res;
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -100,17 +101,37 @@ const UpdateBlog = () => {
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    const updatedBlog = { ...formValues, content: blogContent };
 
+    setAuthorId(1);
+    // Extract all image URLs from the blog content
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(blogContent, "text/html");
+    const imgElements = doc.querySelectorAll("img");
+    const imgUrls = Array.from(imgElements).map((img) => img.src);
+    const formData = new FormData();
+    const updateBlogPost = {
+      ...formValues,
+      id: id,
+      authorId: authorId,
+      content: blogContent, // Updated content, with inserted image URLs
+    };
+
+    // Append content as JSON string
+    formData.append("blogPost", JSON.stringify(updateBlogPost));
+
+    // Append image URLs as a separate field
+    formData.append("imageUrl", JSON.stringify(imgUrls));
     try {
       const response = await axiosInstance.put<BlogDTO>(
         `/blogs/${id}`,
-        updatedBlog,
+        formData,
         {
           withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
-
       if (response.data.success) {
         alert("Blog post updated successfully!");
       } else {
@@ -135,6 +156,7 @@ const UpdateBlog = () => {
           inputName={input.inputName}
           placeholderText={input.placeholderText}
           required={input.required}
+          value={formValues[input.inputId] || ""}
           onChange={handleInputChange}
         />
       ))}
