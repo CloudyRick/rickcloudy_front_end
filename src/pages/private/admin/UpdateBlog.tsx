@@ -47,7 +47,7 @@ const UpdateBlog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axiosInstance.get<BlogDTO>(`/blogs/${id}`);
+        const response = await axiosInstance.get<BlogDTO>(`/admin/blogs/${id}`);
         if (response.data.success) {
           const { title, blogStatus, content } = response.data.data;
           setFormValues({ title, status: blogStatus });
@@ -123,7 +123,7 @@ const UpdateBlog = () => {
     formData.append("imageUrl", JSON.stringify(imgUrls));
     try {
       const response = await axiosInstance.put<BlogDTO>(
-        `/admin/blogs/${id}`,
+        `/blogs/${id}`,
         formData,
         {
           withCredentials: true,
