@@ -35,10 +35,6 @@ const AdminBlogList = (): JSX.Element => {
     fetchBlogs();
   }, []);
 
-  useEffect(() => {
-    console.log("Updated Blog State:", blogs);
-  }, [blogs]);
-
   if (loading)
     return (
       <div className="min-h-[100vh] flex flex-col justify-center">
